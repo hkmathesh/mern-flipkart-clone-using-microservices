@@ -5,9 +5,13 @@ const axios = require("axios");
 
 // Fetch Cart for a User
 const getCart = async (req, res) => {
+
+    const userId = req.params.userId;
+    console.log("Fetching cart for user:", userId); // 🔍 Add this
+
     try {
-        console.log("Fetching cart for:", req.params.userId);
-        console.log("Calling product service at:", process.env.PRODUCT_SERVICE_URL);
+        // console.log("Fetching cart for:", req.params.userId);
+        // console.log("Calling product service at:", process.env.PRODUCT_SERVICE_URL);
 
         const cart = await Cart.findOne({ userId: req.params.userId });
         if (!cart || !cart.items.length) return res.json({ items: [] });
@@ -30,7 +34,8 @@ const getCart = async (req, res) => {
 
         res.json({ ...cart.toObject(), items: enrichedItems });
     } catch (err) {
-        console.error(err);
+        console.error("Error in getCartByUserId:", error); // 🔍 Add this
+        // console.error(err);
         res.status(500).send("Server error");
     }
 };
