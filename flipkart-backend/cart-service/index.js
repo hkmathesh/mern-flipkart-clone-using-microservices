@@ -12,12 +12,22 @@ const app = express();
 app.use(express.json()) // Middleware to parse JSON requests
 
 // Enable CORS for frontend access
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true // optional: if you're using cookies or Firebase auth
-}));
-
-console.log("Allowed frontend:", process.env.FRONTEND_URL);
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://mern-flipkart-microservices-frontend.onrender.com'
+  ];
+  
+  app.use(cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (like Postman or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true
+  }));
 
 // Connect to MongoDB
 connectDB();
