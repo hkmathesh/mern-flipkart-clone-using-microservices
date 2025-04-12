@@ -14,6 +14,8 @@ const getCart = async (req, res) => {
         // console.log("Calling product service at:", process.env.PRODUCT_SERVICE_URL);
 
         const cart = await Cart.findOne({ userId: req.params.userId });
+        console.log("Cart found:", cart);
+
         if (!cart || !cart.items.length) return res.json({ items: [] });
 
         const productIds = cart.items.map((item) => item.productId);
@@ -34,7 +36,7 @@ const getCart = async (req, res) => {
 
         res.json({ ...cart.toObject(), items: enrichedItems });
     } catch (err) {
-        console.error("Error in getCartByUserId:", error); // 🔍 Add this
+        console.error("Error in getCartByUserId:", err); // 🔍 Add this
         // console.error(err);
         res.status(500).send("Server error");
     }
