@@ -53,14 +53,12 @@ const getUserOrders = async (req, res) => {
         });
 
         // 2. Fetch product details
-        const productsResponse = await axios.post(`${process.env.PRODUCT_SERVICE_URL}/api/products/bulk`, {
-            ids: productIds
-        });
+        const productsUrl = new URL('/api/products/bulk', process.env.PRODUCT_SERVICE_URL).href;
+        const productsResponse = await axios.post(productsUrl, { ids: productIds });
 
         // 3. Fetch address details
-        const addressResponse = await axios.post(`${process.env.ADDRESS_SERVICE_URL}/api/addresses/bulk`, {
-            ids: Array.from(addressIds)
-        });
+        const addressUrl = new URL('/api/addresses/bulk', process.env.ADDRESS_SERVICE_URL).href;
+        const addressResponse = await axios.post(addressUrl, { ids: Array.from(addressIds) });
 
         const productsMap = {};
         productsResponse.data.forEach(p => productsMap[p._id] = p);

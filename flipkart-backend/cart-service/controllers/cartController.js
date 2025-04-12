@@ -20,9 +20,10 @@ const getCart = async (req, res) => {
 
         const productIds = cart.items.map((item) => item.productId);
 
-        const response = await axios.post(`${process.env.PRODUCT_SERVICE_URL}/api/products/bulk`, {
-            ids: productIds
-        });
+        const cartUrl = new URL('/api/products/bulk', process.env.PRODUCT_SERVICE_URL).href;
+        const response = await axios.post(cartUrl, {
+          ids: productIds
+        }); // new URL() will correctly handle the slashes, even if PRODUCT_SERVICE_URL ends or doesn't end with /.
 
         const productsMap = {};
         response.data.forEach((product) => {
