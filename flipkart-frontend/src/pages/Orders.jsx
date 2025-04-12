@@ -110,11 +110,13 @@ const Orders = () => {
                             {order.items.map((item, idx) => (
                                 <li key={item.productId?._id || idx} className="flex items-start gap-4 border-b border-gray-200 pb-3">
                                     {item.product?.image && (
+                                        <div className="w-16 h-16 flex-shrink-0">
                                         <img
                                             src={item.product.image}
                                             alt={item.product.name}
-                                            className="w-16 h-16 object-cover rounded-md"
+                                            className="w-full h-full object-contain rounded"
                                         />
+                                    </div>
                                     )}
                                     <div>
                                         <p className="font-medium">{item.product?.name || "Unknown Product"}</p>
